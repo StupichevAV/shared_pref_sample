@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
-//import 'auth_screen.dart';
-//import 'files_demo_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
-//runApp(const FilesDemoScreen());
   runApp(const MyApp());
-//runApp(const SharedPrefScreen());
-//runApp(AuthScreen());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,7 +25,6 @@ class MyApp extends StatelessWidget {
 class CounterStorage {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-
     return directory.path;
   }
 
@@ -42,21 +36,18 @@ class CounterStorage {
   Future<int> readCounter() async {
     try {
       final file = await _localFile;
-
-// Read the file
+      // Read the file
       final contents = await file.readAsString();
-
       return int.parse(contents);
     } catch (e) {
-// If encountering an error, return 0
+      // If encountering an error, return 0
       return 0;
     }
   }
 
   Future<File> writeCounter(int counter) async {
     final file = await _localFile;
-
-// Write the file
+    // Write the file
     return file.writeAsString('$counter');
   }
 }
@@ -104,8 +95,7 @@ class _SharedPreferenceScreenState extends State<SharedPreferenceScreen> {
     setState(() {
       _counter++;
     });
-
-// Write the variable as a string to the file.
+    // Write the variable as a string to the file.
     return widget.storage.writeCounter(_counter);
   }
 
@@ -177,10 +167,15 @@ class _SharedPreferenceScreenState extends State<SharedPreferenceScreen> {
     _loadBoolPref();
   }
 
-// Загрузка данных формата Boolean
+// Очистить данные
   Future<void> _resetDataPref() async {
     await _prefs.remove(kNumberPrefKey);
     await _prefs.remove(kBoolPrefKey);
+    await widget.storage.readCounter().then((int value) {
+      setState(() {
+        _counter = 0;
+      });
+    });
 
     _loadNumberPref();
     _loadBoolPref();
