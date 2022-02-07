@@ -29,7 +29,7 @@ environment:
 dependencies:
   path_provider: ^2.0.8
   mask_text_input_formatter: ^2.1.0
-  shared_preferences: ^2.0.12
+  shared_preferences: ^2.0.13
   flutter:
     sdk: flutter
 
